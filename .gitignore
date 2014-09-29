@@ -1,0 +1,9 @@
+*.pyc
+*.sw[p-z]
+*.DS_Store
+*.tox
+*.egg
+*.egg-info
+dist
+build
+eggs

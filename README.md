@@ -1,7 +1,7 @@
 OpenShift Docker Registry Extensions
 ====================================
 
-This is the source repository for OpenShift's extensions to the [Docker Registry][https://github.com/docker/docker-registry].
+This is the source repository for OpenShift's extensions to the [Docker Registry](https://github.com/docker/docker-registry).
 
 Extensions
 ----------
@@ -30,7 +30,7 @@ Alternatively, you can edit the configuration file, modify the `extensions.opens
 
 When the registry sends OpenShift information about a new image and tag, it also needs to tell OpenShift which registry it is. You must set the `REGISTRY_URL` environment variable appropriately. For example, if you were to tag your image as `some.registry:5000/namespace/repo:latest`, you would need to set `REGISTRY_URL` to `some.registry:5000`. If not set, it defaults to `localhost:5000`. This can be set in the same manner as `OPENSHIFT_URL` described above.
 
-More information on the other configuration options is available on the [Docker Registry][https://github.com/docker/docker-registry] page.
+More information on the other configuration options is available on the [Docker Registry](https://github.com/docker/docker-registry) page.
 
 License
 -------

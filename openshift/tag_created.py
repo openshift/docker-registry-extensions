@@ -20,8 +20,7 @@ registry_url = None
 
 if cfg.extensions is not None and cfg.extensions.openshift is not None:
     cfg = cfg.extensions.openshift
-    if cfg.openshift_url is None:
-        raise Exception('OpenShift URL is required')
+
     openshift_url = cfg.openshift_url
     logger.info("OpenShift URL: {0}".format(openshift_url))
 
@@ -96,4 +95,8 @@ def _post_repository_binding(namespace, repository, tag, image_id, image):
 
     return True
 
-docker_registry.lib.signals.tag_created.connect(tag_created)
+if openshift_url is not None and registry_url is not None:
+    docker_registry.lib.signals.tag_created.connect(tag_created)
+    logger.info("OpenShift tag_created extension enabled")
+else:
+    logger.info("OpenShift tag_created extension disabled - missing openshift_url and/or registry_url")

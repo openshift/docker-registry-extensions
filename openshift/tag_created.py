@@ -58,23 +58,25 @@ def _post_repository_binding(namespace, repository, tag, image_id, image):
     ref = "{0}:{1}".format(name, image_id)
     body = {
         "kind": "ImageRepositoryMapping",
-        "version": "v1beta1",
+        "apiVersion": "v1beta1",
         "dockerImageRepository": name,
         "image": {
-            "id": image_id,
-            "dockerImageReference": ref,
             "metadata": {
+              "name": image_id,
+            },
+            "dockerImageReference": ref,
+            "dockerImageMetadata": {
                 "Id": image['id'],
-                "Parent": image['parent'] if 'parent' in image else '',
-                "Comment": image['comment'] if 'comment' in image else '',
-                "Created": image['created'] if 'created' in image else '',
-                "Container": image['container'] if 'container' in image else '',
-                "ContainerConfig": image['container_config'] if 'container_config' in image else '',
-                "DockerVersion": image['docker_version'] if 'docker_version' in image else '',
-                "Author": image['author'] if 'author' in image else '',
-                "Config": image['config'] if 'config' in image else '',
-                "Architecture": image['architecture'] if 'architecture' in image else '',
-                "Size": image['Size'] if 'Size' in image else ''
+                "Parent": image.get('parent', ''),
+                "Comment": image.get('comment', ''),
+                "Created": image.get('created', ''),
+                "Container": image.get('container', ''),
+                "ContainerConfig": image.get('container_config', ''),
+                "DockerVersion": image.get('docker_version', ''),
+                "Author": image.get('author', ''),
+                "Config": image.get('config', ''),
+                "Architecture": image.get('architecture', ''),
+                "Size": image.get('Size', ''),
             }
         },
         "tag": tag

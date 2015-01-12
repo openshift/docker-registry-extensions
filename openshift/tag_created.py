@@ -50,7 +50,7 @@ def tag_created(sender, namespace, repository, tag, value):
 
 def _post_repository_binding(namespace, repository, tag, image_id, image):
     url = '{0}/imageRepositoryMappings'.format(openshift_url)
-    params = {"sync": "true"}
+    params = {"sync": "true", "namespace": namespace}
     headers = {}
     # headers = {'Authorization': self.authorization}
 
@@ -59,10 +59,14 @@ def _post_repository_binding(namespace, repository, tag, image_id, image):
     body = {
         "kind": "ImageRepositoryMapping",
         "apiVersion": "v1beta1",
+        "metadata": {
+            "name": repository,
+            "namespace": namespace,
+        },
         "dockerImageRepository": name,
         "image": {
             "metadata": {
-              "name": image_id,
+                "name": image_id,
             },
             "dockerImageReference": ref,
             "dockerImageMetadata": {

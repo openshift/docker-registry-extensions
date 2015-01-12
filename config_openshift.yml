@@ -171,6 +171,12 @@ dev: &dev
         openshift:
             # URL to the OpenShift API server, e.g. http://<server>/osapi/v1beta1
             openshift_url: _env:OPENSHIFT_URL
+            # Path to a certificate bundle containing trusted root certificates
+            openshift_ca_bundle: _env:OPENSHIFT_CA_BUNDLE
+            # Path to a client certificate file
+            openshift_client_cert: _env:OPENSHIFT_CLIENT_CERT
+            # Path to a client key file
+            openshift_client_key: _env:OPENSHIFT_CLIENT_KEY
             # URL to this registry. Defaults to localhost:5000.
             registry_url: _env:REGISTRY_URL:localhost:5000
 

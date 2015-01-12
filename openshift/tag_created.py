@@ -16,6 +16,9 @@ cfg = config.load()
 store = storage.load()
 
 openshift_url = None
+openshift_ca_bundle = None
+openshift_client_cert = None
+openshift_client_key = None
 registry_url = None
 
 if cfg.extensions is not None and cfg.extensions.openshift is not None:
@@ -23,6 +26,15 @@ if cfg.extensions is not None and cfg.extensions.openshift is not None:
 
     openshift_url = cfg.openshift_url
     logger.info("OpenShift URL: {0}".format(openshift_url))
+
+    openshift_ca_bundle = cfg.openshift_ca_bundle
+    logger.info("OpenShift CA bundle: {0}".format(openshift_ca_bundle))
+
+    openshift_client_cert = cfg.openshift_client_cert
+    logger.info("OpenShift client certificate: {0}".format(openshift_client_cert))
+
+    openshift_client_key = cfg.openshift_client_key
+    logger.info("OpenShift client key: {0}".format(openshift_client_key))
 
     if cfg.registry_url is not None:
         registry_url = cfg.registry_url
@@ -83,8 +95,22 @@ def _post_repository_binding(namespace, repository, tag, image_id, image):
     }
     logger.debug("saving\n" + json.dumps(body))
 
-    resp = requests.post(url, params=params, verify=True, headers=headers,
-                         data=json.dumps(body))
+    postArgs = {
+        'params': params,
+        'headers': headers,
+        'data': json.dumps(body),
+        'verify': True
+    }
+
+    if openshift_ca_bundle is not None:
+        postArgs["verify"] = openshift_ca_bundle
+
+    if openshift_client_cert is not None and openshift_client_key is not None:
+        postArgs["cert"] = (openshift_client_cert, openshift_client_key)
+    elif openshift_client_cert is not None:
+        postArgs["cert"] = openshift_client_cert
+
+    resp = requests.post(url, **postArgs)
 
     if resp.status_code == 422:
         logger.debug('openshift#_post_repository_binding: invalid request: %s' % resp.text)

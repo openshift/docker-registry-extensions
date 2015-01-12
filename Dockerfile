@@ -16,7 +16,6 @@ RUN yum update -y && \
     yum install -y epel-release && \
     yum install -y python-pip \
                    python-devel \
-                   python-backports-lzma \
                    python-boto \
                    python-redis \
                    python-blinker \
@@ -25,6 +24,7 @@ RUN yum update -y && \
                    libev \
                    python-greenlet \
                    unzip \
+                   xz-devel \
                    gcc && \
     curl -L -O https://github.com/openshift/docker-registry/archive/master.zip && \
     unzip master.zip && \

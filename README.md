@@ -30,6 +30,10 @@ Alternatively, you can edit the configuration file, modify the `extensions.opens
 
 When the registry sends OpenShift information about a new image and tag, it also needs to tell OpenShift which registry it is. You must set the `REGISTRY_URL` environment variable appropriately. For example, if you were to tag your image as `some.registry:5000/namespace/repo:latest`, you would need to set `REGISTRY_URL` to `some.registry:5000`. If not set, it defaults to `localhost:5000`. This can be set in the same manner as `OPENSHIFT_URL` described above.
 
+To specify a root certificate bundle to use when verifying the OpenShift certificate, set the `OPENSHIFT_CA_BUNDLE` environment variable or the `extensions.openshift.openshift_ca_bundle` setting.
+
+To specify a client certificate to use when connecting to OpenShift, set the `OPENSHIFT_CLIENT_CERT` and `OPENSHIFT_CLIENT_KEY` environment variables, or the `extensions.openshift.openshift_client_cert` and `extensions.openshift.openshift_client_key` settings.
+
 More information on the other configuration options is available on the [Docker Registry](https://github.com/docker/docker-registry) page.
 
 License

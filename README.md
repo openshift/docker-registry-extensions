@@ -32,6 +32,8 @@ When the registry sends OpenShift information about a new image and tag, it also
 
 To specify a root certificate bundle to use when verifying the OpenShift certificate, set the `OPENSHIFT_CA_BUNDLE` environment variable or the `extensions.openshift.openshift_ca_bundle` setting.
 
+To skip certificate validation when connecting to OpenShift, set the `OPENSHIFT_INSECURE` environment variable or the `extensions.openshift.openshift_insecure` setting.
+
 To specify a client certificate to use when connecting to OpenShift, set the `OPENSHIFT_CLIENT_CERT` and `OPENSHIFT_CLIENT_KEY` environment variables, or the `extensions.openshift.openshift_client_cert` and `extensions.openshift.openshift_client_key` settings.
 
 More information on the other configuration options is available on the [Docker Registry](https://github.com/docker/docker-registry) page.

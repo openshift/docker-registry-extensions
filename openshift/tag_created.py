@@ -16,6 +16,7 @@ cfg = config.load()
 store = storage.load()
 
 openshift_url = None
+openshift_insecure = False
 openshift_ca_bundle = None
 openshift_client_cert = None
 openshift_client_key = None
@@ -26,6 +27,9 @@ if cfg.extensions is not None and cfg.extensions.openshift is not None:
 
     openshift_url = cfg.openshift_url
     logger.info("OpenShift URL: {0}".format(openshift_url))
+
+    openshift_insecure = cfg.openshift_insecure
+    logger.info("OpenShift insecure: {0}".format(openshift_insecure))
 
     openshift_ca_bundle = cfg.openshift_ca_bundle
     logger.info("OpenShift CA bundle: {0}".format(openshift_ca_bundle))
@@ -103,11 +107,14 @@ def _post_repository_binding(namespace, repository, tag, image_id, image):
         'params': params,
         'headers': headers,
         'data': json.dumps(body),
-        'verify': True
     }
 
     if openshift_ca_bundle is not None:
         postArgs["verify"] = openshift_ca_bundle
+    elif openshift_insecure:
+        postArgs["verify"] = False
+    else:
+        postArgs["verify"] = True
 
     if openshift_client_cert is not None and openshift_client_key is not None:
         postArgs["cert"] = (openshift_client_cert, openshift_client_key)

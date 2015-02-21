@@ -75,7 +75,7 @@ common: &common
 local: &local
     <<: *common
     storage: local
-    storage_path: _env:STORAGE_PATH:/tmp/registry
+    storage_path: _env:STORAGE_PATH:/registry
 
 
 s3: &s3
@@ -129,7 +129,7 @@ glance: &glance
     <<: *common
     storage: glance
     storage_alternate: _env:GLANCE_STORAGE_ALTERNATE:file
-    storage_path: _env:STORAGE_PATH:/tmp/registry
+    storage_path: _env:STORAGE_PATH:/registry
 
 openstack:
     <<: *glance

@@ -1,14 +1,6 @@
 FROM centos:centos7
 MAINTAINER Andy Goldstein <agoldste@redhat.com>
 
-# Set up default settings
-ENV DOCKER_REGISTRY_CONFIG /openshift-docker-registry-extensions/config_openshift.yml
-ENV SETTINGS_FLAVOR dev
-
-EXPOSE 5000
-
-CMD exec docker-registry
-
 ADD . /openshift-docker-registry-extensions
 
 # Update installed packages and install dependencies
@@ -41,3 +33,11 @@ RUN yum update -y && \
                   gcc cpp glibc-devel glibc-headers kernel-headers libmpc mpfr && \
     yum clean all && \
     rm -rf /tmp/pip*
+
+# Set up default settings
+ENV DOCKER_REGISTRY_CONFIG /openshift-docker-registry-extensions/config_openshift.yml
+ENV SETTINGS_FLAVOR dev
+
+EXPOSE 5000
+VOLUME /registry
+CMD ["/openshift-docker-registry-extensions/docker-registry-env"]

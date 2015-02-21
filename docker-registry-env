@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#
+# This script sets common environment variables before execing the Docker
+# registry.
+#
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+SECRETS_PATH="${SECRETS_PATH:-/run/secrets}"
+mkdir -p "${SECRETS_PATH}"
+
+if [[ -n "${OPENSHIFT_KEY_DATA-}" ]]; then
+  echo "$OPENSHIFT_KEY_DATA" > "${SECRETS_PATH}/key.key"
+  export  OPENSHIFT_CLIENT_KEY="${SECRETS_PATH}/key.key"
+fi
+
+if [[ -n "${OPENSHIFT_CERT_DATA-}" ]]; then
+  echo "$OPENSHIFT_CERT_DATA" > "${SECRETS_PATH}/cert.crt"
+  export  OPENSHIFT_CLIENT_CERT="${SECRETS_PATH}/cert.crt"
+fi
+
+if [[ -n "${OPENSHIFT_CA_DATA-}" ]]; then
+  echo "$OPENSHIFT_CA_DATA" > "${SECRETS_PATH}/root.crt"
+  export  OPENSHIFT_CA_BUNDLE="${SECRETS_PATH}/root.crt"
+fi
+
+export REGISTRY_URL="${DOCKER_REGISTRY_SERVICE_HOST}:${DOCKER_REGISTRY_SERVICE_PORT}"
+export OPENSHIFT_URL="${OPENSHIFT_MASTER}/osapi/v1beta1"
+
+exec docker-registry
